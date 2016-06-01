@@ -1,7 +1,7 @@
 {
-	"version":"0.6",
-	"name":"Dossiers",
-	"description":"Dossiers",
+	"version":"0.1",
+	"name":"Edit Dossiers",
+	"description":"Edit Dossiers",
 	"launch_path":"index.html",
 	"icons":{"16":null,
 	"48":"img/Logo_48.png",

@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="HmisReport">
+<html ng-app="DossierEdit" >
 	<head>
-		<!-- <meta charset="UTF-8">
-		<title>{{'Dossiers' | translate}}</title>
- -->
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 		<script src="bower_components/angular/angular.min.js"></script>
 		<script src="bower_components/angular-route/angular-route.min.js"></script>
 		<script src="bower_components/angular-resource/angular-resource.min.js"></script>
 		<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-
-		<script src="bower_components/angular-translate/angular-translate.min.js"></script>
-		<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
-		
-		<script src="bower_components/angular-animate/angular-animate.js"></script>
 <!-- 
 		<script src="bower_components/tinymce-dist/tinymce.min.js"></script>
 		<script src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>
@@ -34,23 +26,17 @@
 
 		
 	</head>
-	<body   ng-app="HmisReport" class="container-fluid">
-	<div ng-controller="HmisReportCtrl as main"  class="row" id="main">
+	<body ng-app="DossierEdit"  class="container-fluid">
+	<div ng-controller="DossierEditCtrl as main"  class="row" id="main">
 		<div class="row dossierMenu">
-			<div class="col-xs-10 menu" d2-menu>
+			<div class="col-xs-12 menu" d2-menu>
 			</div> 
-			<div class="col-xs-2"> 
-			<button disabled="disabled" type="button" onclick="javascript:window.print()" class="btn btn-link btn-lg printButton">
-			<span  aria-hidden="true" class="glyphicon glyphicon-print"></span>
-			</button>
-			</div>
 		</div>		
 		
 		<ul id="dossierTabs" onclick="tabSwitch()"  role="tablist" class="nav nav-tabs col-md-12">
-			<li id="services" role="presentation"  class="active col-md-2"><a role="tab" data-toggle="tab"  href="#services">{{'Services' | translate}}</a></li>
-			<li id="dataSets" role="presentation"  class="col-md-2 tab"><a role="tab" data-toggle="tab"   href="#dataSets">{{'Data Sets' | translate}}</a></li>
-			<li id="indictorGroups" role="presentation"  class="col-md-2 tab"><a role="tab" data-toggle="tab"   href="#indictorGroups">{{'Indicator Groups'| translate}}</a></li>
-			<li id="indicators" role="presentation"   class="col-md-2 tab"><a role="tab" data-toggle="tab" onclick="loadIndicatorTab()"   href="#indicators">{{'Indicators'| translate}}</a></li>
+			<li id="editDossier" role="presentation"  class="active col-md-2"><a role="tab" data-toggle="tab"  href="#editDossier">Edit Dossier</a></li>
+			<li id="createService" role="presentation"  class="col-md-2 tab"><a role="tab" data-toggle="tab"   href="#createService">Create Service</a></li>
+			<li id="editService" role="presentation"  class="col-md-2 tab"><a role="tab" data-toggle="tab"   href="#editService">Edit Service</a></li>
 		</ul>
 
 <!-- DHIS2 Settings initialization for a baseUrl that is used for the menu -->
@@ -84,10 +70,6 @@
 		  <pre>$routeParams = {{main.$routeParams}}</pre> -->
 		</div>	
 
-		<!-- works only properly in firefox  -->
-        <div id="print-foot">
-      		 
- 		</div>
  		<div class="loading"></div>
 	</body>
 </html>

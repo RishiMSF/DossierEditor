@@ -1,22 +1,19 @@
-var HmisReport = angular.module('HmisReport',['ngRoute','HmisReportcontrollers','hmisReportServices','d2Menu']);
+var DossierEdit = angular.module('DossierEdit',['ngRoute','DossierEditcontrollers','DossierEditServices','d2Menu']);
 
 HmisReport.config(['$routeProvider','$locationProvider',
 	function($routeProvider, $locationProvider){
 		$routeProvider.
-			when('/dataSets',{
-				templateUrl: 'app/dossierDataSets.html',
-        		controller: 'DataSetController'
-			}).when('/services',{
-				templateUrl: 'app/dossierServices.html',
-        		controller: 'ServiceController'
-        	}).when('/indictorGroups',{
-				templateUrl: 'app/indicatorGroups.html',
-        		controller: 'IndicatorGrpController'
-        	}).when('/indicators',{
-				templateUrl: 'app/indicators.html',
-        		controller: 'IndicatorController'
+			when('/editDossier',{
+				templateUrl: 'app/editDossierText.html',
+        		controller: 'EditDossierCtrl'
+			}).when('/createService',{
+				templateUrl: 'app/createService.html',
+        		controller: 'CreateServiceCtrl'
+        	}).when('/editService',{
+				templateUrl: 'app/editService.html',
+        		controller: 'EditServiceCtrl'
 			}).otherwise({
-        		redirectTo: '/services'
+        		redirectTo: '/editDossier'
       		});
 
 	//$locationProvider.html5Mode(true);		
