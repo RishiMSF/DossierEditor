@@ -1,6 +1,6 @@
-var DossierEdit = angular.module('DossierEdit',['ngRoute','DossierEditcontrollers','DossierEditServices','d2Menu']);
+var DossierEdit = angular.module('DossierEdit',['ngRoute','DossierEditcontrollers','DossierEditServices','d2Menu','ui.tinymce']);
 
-HmisReport.config(['$routeProvider','$locationProvider',
+DossierEdit.config(['$routeProvider','$locationProvider',
 	function($routeProvider, $locationProvider){
 		$routeProvider.
 			when('/editDossier',{

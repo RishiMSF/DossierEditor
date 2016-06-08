@@ -1,13 +1,29 @@
 var DossierEditcontrollers = angular.module('DossierEditcontrollers',['ngSanitize']); 
-/*'ui.tinymce' has to be added to angular.module for editor functionality*/
+
+
+DossierEditcontrollers.controller('TinyMceController',['$scope', function($scope) {
+  $scope.tinymceModel = 'Initial content';
+
+  $scope.getContent = function() {
+    console.log('Editor content:', $scope.tinymceModel);
+  };
+
+  $scope.setContent = function() {
+    $scope.tinymceModel = 'Time: ' + (new Date());
+  };
+
+  $scope.tinymceOptions = {
+    plugins: 'link image code',
+    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+    readonly : 1
+  };
+}]);
 
 DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$location', '$anchorScroll', '$routeParams', '$http',  function($scope, $route, $location, $anchorScroll, $routeParams, $http){
 	this.$route = $route;
     this.$location = $location;
     this.$routeParams = $routeParams;
-
-    console.log("Hola main ctrl");
-	
+   
 	//checking if session is not expired, if expired response is login-page(so then reload)
 	ping = function(){	    
 	    $.ajax({
@@ -25,7 +41,7 @@ DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$locat
 
 	tabSwitch =function(){
 		ping();
-		startLoadingState(true);
+		startLoadingState();
 	}
 
 	endLoadingState = function(){
@@ -33,27 +49,40 @@ DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$locat
 		$(".loading").hide();
 	}
 
-	startLoadingState = function(onlyprint){ 
+	startLoadingState = function(){ 
 			$(".loading").show();
 	}
 
 }]);
 
-DossierEditcontrollers.controller('EditDossierCtrl',['$scope','Services','ServiceDataSets','Dossier', 'ServiceIndicatorGrps', function($scope,Services,ServiceDataSets,Dossier,ServiceIndicatorGrps){
-	console.log("Hola EditDossierCtrl");
-	// 	$scope.services = Services.get();
-	// 	$scope.serviceDataSets = {};
+DossierEditcontrollers.controller('EditDossierCtrl',['$scope','Services','Dossier', function($scope,Services,Dossier){
+	startLoadingState();
+	 $scope.languages = { "languages": [{
+            			"language": "english",
+            			"code": "en"
+        			},{
+            			"language": "french",
+            			"code": "fr"
+        			}]
+   				 };
 
-	// $scope.$watch('selectedService',function(){	 	
-	// 	ping();
+	$scope.services = Services.get(function(){
+		endLoadingState();
+	});
 
- //      	if ($scope.selectedService){
- //      		startLoadingState(false);
-	// 		$scope.indicatorGroups =  ServiceIndicatorGrps.get({serviceCode:$scope.selectedService.code});
-	// 		$scope.serviceDataSets = ServiceDataSets.get({serviceCode:$scope.selectedService.code}); 
-	// 		$scope.dossier = Dossier.get({languageCode:$translate.use(),serviceCode:$scope.selectedService.code});
-	// 	}
-	// });
+	$scope.$watchGroup(['selectedService','selectedLanguage'],function(newValues, oldValues){	 	
+		ping();
+
+      	if (!angular.isUndefined($scope.selectedLanguage) && !angular.isUndefined($scope.selectedService)){
+      		startLoadingState();
+      		 console.log("Hola edit ctrl");
+	
+			$scope.dossier = Dossier.get({languageCode:$scope.selectedLanguage.code,serviceCode:$scope.selectedService.code},function(){
+				$scope.tinymceModel.activeEditor.setMode('design');
+				endLoadingState();
+			});
+		}
+	});
 }]);
 
 
