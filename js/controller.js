@@ -12,11 +12,26 @@ DossierEditcontrollers.controller('TinyMceController',['$scope', function($scope
     $scope.tinymceModel = 'Time: ' + (new Date());
   };
 
-  $scope.tinymceOptions = {
-    plugins: 'link image code',
-    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-    readonly : 1
-  };
+  $scope.disableTinyEditor = function(){
+  	$scope.tinymceOptions = {
+	    plugins: 'link image code',
+	    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+	    readonly : 1
+	};
+  }
+
+  $scope.enableTinyEditor = function(){
+  	console.log("in enableTinyEditor");
+  	$scope.tinymceOptions = {
+	    plugins: 'link image code',
+	    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+	    readonly : 0
+	};
+  }
+
+  $scope.disableTinyEditor();
+
+
 }]);
 
 DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$location', '$anchorScroll', '$routeParams', '$http',  function($scope, $route, $location, $anchorScroll, $routeParams, $http){
@@ -37,6 +52,10 @@ DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$locat
              	document.location.reload(true);
             }
 		});
+	}
+
+	$scope.enableEditor = function(){
+		$scope.enableTinyEditor();
 	}
 
 	tabSwitch =function(){
@@ -78,7 +97,7 @@ DossierEditcontrollers.controller('EditDossierCtrl',['$scope','Services','Dossie
       		 console.log("Hola edit ctrl");
 	
 			$scope.dossier = Dossier.get({languageCode:$scope.selectedLanguage.code,serviceCode:$scope.selectedService.code},function(){
-				$scope.tinymceModel.activeEditor.setMode('design');
+				$scope.enableEditor();
 				endLoadingState();
 			});
 		}
