@@ -2,35 +2,7 @@ var DossierEditcontrollers = angular.module('DossierEditcontrollers',['ngSanitiz
 
 
 DossierEditcontrollers.controller('TinyMceController',['$scope', function($scope) {
-  $scope.tinymceModel = 'Initial content';
-
-  $scope.getContent = function() {
-    console.log('Editor content:', $scope.tinymceModel);
-  };
-
-  $scope.setContent = function() {
-    $scope.tinymceModel = 'Time: ' + (new Date());
-  };
-
-  $scope.disableTinyEditor = function(){
-  	$scope.tinymceOptions = {
-	    plugins: 'link image code',
-	    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-	    readonly : 1
-	};
-  }
-
-  $scope.enableTinyEditor = function(){
-  	console.log("in enableTinyEditor");
-  	$scope.tinymceOptions = {
-	    plugins: 'link image code',
-	    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
-	    readonly : 0
-	};
-  }
-
-  $scope.disableTinyEditor();
-
+  
 
 }]);
 
@@ -54,10 +26,6 @@ DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$locat
 		});
 	}
 
-	$scope.enableEditor = function(){
-		$scope.enableTinyEditor();
-	}
-
 	tabSwitch =function(){
 		ping();
 		startLoadingState();
@@ -76,7 +44,34 @@ DossierEditcontrollers.controller('DossierEditCtrl', ['$scope','$route', '$locat
 
 DossierEditcontrollers.controller('EditDossierCtrl',['$scope','Services','Dossier', function($scope,Services,Dossier){
 	startLoadingState();
-	 $scope.languages = { "languages": [{
+
+	$scope.tinymceModel = '-';
+
+  $scope.getContent = function() {
+    console.log('Editor content:', $scope.tinymceModel);
+  };
+
+  $scope.setContent = function() {
+    $scope.tinymceModel = 'Time: ' + (new Date());
+  };
+
+  $scope.disableTinyEditor = function(){
+  	$scope.tinymceOptions = {
+	    plugins: 'link image code',
+	    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+	    readonly : 1
+	};
+
+  }
+
+  $scope.enableTinyEditor = function(){
+  	tinymce.activeEditor.setMode('design');
+  }
+
+  $scope.disableTinyEditor();
+
+
+	$scope.languages = { "languages": [{
             			"language": "english",
             			"code": "en"
         			},{
@@ -96,10 +91,13 @@ DossierEditcontrollers.controller('EditDossierCtrl',['$scope','Services','Dossie
       		startLoadingState();
       		 console.log("Hola edit ctrl");
 	
-			$scope.dossier = Dossier.get({languageCode:$scope.selectedLanguage.code,serviceCode:$scope.selectedService.code},function(){
-				$scope.enableEditor();
+			$scope.dossier = Dossier.get({languageCode:$scope.selectedLanguage.code,serviceCode:$scope.selectedService.code},function(data){
+				$scope.enableTinyEditor();
+				console.log(data);
+				$scope.tinymceModel = data.rows[0][0];
 				endLoadingState();
 			});
+			
 		}
 	});
 }]);
